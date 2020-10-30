@@ -1,4 +1,4 @@
-type Vector = {
+export type Vector = {
   x: number;
   y: number;
 };
@@ -14,6 +14,13 @@ export function sub(vec1: Vector, vec2: Vector): Vector {
   return {
     x: vec1.x - vec2.x,
     y: vec1.y - vec2.y,
+  };
+}
+
+export function div(vec: Vector, scalar: number): Vector {
+  return {
+    x: vec.x / scalar,
+    y: vec.y / scalar,
   };
 }
 

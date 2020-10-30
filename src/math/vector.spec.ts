@@ -1,4 +1,4 @@
-import { add, sub, mul, dot, mag, normalized } from "./vector";
+import { add, sub, mul, div, dot, mag, normalized } from "./vector";
 
 test("vector addition", () => {
   expect(add({ x: 1, y: 2 }, { x: 3, y: 4 })).toStrictEqual({ x: 4, y: 6 });
@@ -10,6 +10,10 @@ test("vector subtraction", () => {
 
 test("vector scalar multiplication", () => {
   expect(mul({ x: 1, y: 2 }, 2)).toStrictEqual({ x: 2, y: 4 });
+});
+
+test("vector scalar division", () => {
+  expect(div({ x: 4, y: 2 }, 2)).toStrictEqual({ x: 2, y: 1 });
 });
 
 test("vector dot product", () => {
