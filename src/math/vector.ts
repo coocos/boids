@@ -40,5 +40,8 @@ export function mag(vec: Vector): number {
 }
 
 export function normalized(vec: Vector): Vector {
+  if (vec.x == 0 && vec.y == 0) {
+    return vec;
+  }
   return mul(vec, 1 / mag(vec));
 }

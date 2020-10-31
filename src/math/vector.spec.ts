@@ -30,3 +30,10 @@ test("vector normalization", () => {
     y: 4 / Math.sqrt(20),
   });
 });
+
+test("vector normalization with a null vector", () => {
+  expect(normalized({ x: 0, y: 0 })).toStrictEqual({
+    x: 0,
+    y: 0,
+  });
+});
