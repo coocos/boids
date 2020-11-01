@@ -23,12 +23,12 @@ function createBoid(position: Vector, config = {}): Boid {
       y: 0,
     },
     config: {
-      flockRadius: 10,
+      radius: 10,
       maxVelocity: 1,
       factors: {
         cohesion: 1,
         alignment: 1,
-        avoidance: 1,
+        separation: 1,
         bounds: 1,
         ...(config["factors"] || {}),
       },
@@ -178,7 +178,7 @@ describe("separation", () => {
       },
       {
         factors: {
-          avoidance: 0.5,
+          separation: 0.5,
         },
       }
     );

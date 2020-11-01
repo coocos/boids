@@ -8,12 +8,12 @@ export type Boid = {
 };
 
 export type BoidConfig = {
-  flockRadius: number;
+  radius: number;
   maxVelocity: number;
   factors: {
     cohesion: number;
     alignment: number;
-    avoidance: number;
+    separation: number;
     bounds: number;
   };
 };

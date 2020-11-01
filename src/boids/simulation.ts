@@ -19,7 +19,7 @@ export function flockMates(boid: Boid, boids: Array<Boid>) {
   return boids.filter(
     (other) =>
       boid != other &&
-      mag(sub(boid.position, other.position)) < boid.config.flockRadius
+      mag(sub(boid.position, other.position)) < boid.config.radius
   );
 }
 

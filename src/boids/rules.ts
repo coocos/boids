@@ -56,7 +56,7 @@ export function avoidCollision(
     direction.y += towardBoid.y;
   }
   direction = normalized(div(direction, flockMates.length));
-  return mul(direction, boid.config.factors.avoidance);
+  return mul(direction, boid.config.factors.separation);
 }
 
 export function respectBounds(

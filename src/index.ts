@@ -11,12 +11,12 @@ const bounds = {
 };
 
 const boids = createBoids(128, bounds, {
-  flockRadius: 64,
+  radius: 64,
   maxVelocity: 3,
   factors: {
     cohesion: 0.1,
     alignment: 0.1,
-    avoidance: 0.2,
+    separation: 0.2,
     bounds: 0.25,
   },
 });
