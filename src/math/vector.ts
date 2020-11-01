@@ -43,5 +43,5 @@ export function normalized(vec: Vector): Vector {
   if (vec.x == 0 && vec.y == 0) {
     return vec;
   }
-  return mul(vec, 1 / mag(vec));
+  return div(vec, mag(vec));
 }

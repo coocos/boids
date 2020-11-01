@@ -1,6 +1,6 @@
-import { cohesion } from "./rules";
+import { cohesion, alignDirection } from "./rules";
 import { Boid } from "./boid";
-import { Vector } from "../math/vector";
+import { Vector, add, normalized } from "../math/vector";
 
 const defaultBounds = {
   x: 0,
@@ -76,5 +76,63 @@ describe("cohesion rule", () => {
     const velocity = cohesion(boid, flockMates, defaultBounds);
     expect(velocity.x).toEqual(0);
     expect(velocity.y).toEqual(-0.5);
+  });
+});
+
+describe("alignment rule", () => {
+  test("should direct boid towards average flock heading", () => {
+    const boid = createBoid({
+      x: 0,
+      y: 0,
+    });
+    const flockMates = [
+      createBoid({
+        x: 0,
+        y: 0,
+      }),
+      createBoid({
+        x: 0,
+        y: 0,
+      }),
+    ];
+    const [first, second] = flockMates;
+    first.velocity = { x: 0, y: -1 };
+    second.velocity = { x: 0, y: -1 };
+    const velocity = alignDirection(boid, flockMates, defaultBounds);
+    expect(velocity).toStrictEqual({
+      x: 0,
+      y: -1,
+    });
+  });
+
+  test("should use cohesion factor to scale velocity", () => {});
+  const boid = createBoid(
+    {
+      x: 0,
+      y: 0,
+    },
+    {
+      factors: {
+        alignment: 0.5,
+      },
+    }
+  );
+  const flockMates = [
+    createBoid({
+      x: 0,
+      y: 0,
+    }),
+    createBoid({
+      x: 0,
+      y: 0,
+    }),
+  ];
+  const [first, second] = flockMates;
+  first.velocity = { x: 0, y: -1 };
+  second.velocity = { x: 0, y: -1 };
+  const velocity = alignDirection(boid, flockMates, defaultBounds);
+  expect(velocity).toStrictEqual({
+    x: 0,
+    y: -0.5,
   });
 });

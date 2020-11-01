@@ -1,6 +1,6 @@
 import { mag, sub, add } from "../math/vector";
 import { Boid } from "./boid";
-import { cohesion } from "./rules";
+import { cohesion, alignDirection } from "./rules";
 
 export type Bounds = {
   x: number;
@@ -18,7 +18,7 @@ export function flockMates(boid: Boid, boids: Array<Boid>) {
 }
 
 export function simulation(boids: Array<Boid>, bounds: Bounds) {
-  const rules = [cohesion];
+  const rules = [cohesion, alignDirection];
   return {
     simulate: () => {
       for (let boid of boids) {
