@@ -1,6 +1,11 @@
-import { groupTogether, alignDirection, avoidCollision } from "./rules";
+import {
+  groupTogether,
+  alignDirection,
+  avoidCollision,
+  respectBounds,
+} from "./rules";
 import { Boid } from "./boid";
-import { Vector, add, normalized } from "../math/vector";
+import { Vector } from "../math/vector";
 
 const defaultBounds = {
   x: 0,
@@ -190,6 +195,38 @@ describe("avoidance rule", () => {
     expect(velocity).toStrictEqual({
       x: 0,
       y: 0.5,
+    });
+  });
+});
+
+describe("boundary rule", () => {
+  test("should direct boid back within bounds", () => {
+    let boid = createBoid({ x: defaultBounds.x - 1, y: 0 });
+    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+      x: 1,
+      y: 0,
+    });
+    boid = createBoid({ x: defaultBounds.width + 1, y: 0 });
+    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+      x: -1,
+      y: 0,
+    });
+    boid = createBoid({ x: 0, y: defaultBounds.y - 1 });
+    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+      x: 0,
+      y: 1,
+    });
+    boid = createBoid({ x: 0, y: defaultBounds.height + 1 });
+    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+      x: 0,
+      y: -1,
+    });
+  });
+  test("should not do anything if boid is within bounds", () => {
+    const boid = createBoid({ x: 0, y: 0 });
+    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+      x: 0,
+      y: 0,
     });
   });
 });

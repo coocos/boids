@@ -58,3 +58,25 @@ export function avoidCollision(
   direction = normalized(div(direction, flockMates.length));
   return mul(direction, boid.config.factors.avoidance);
 }
+
+export function respectBounds(
+  boid: Boid,
+  flockMates: Array<Boid>,
+  bounds: Bounds
+) {
+  let direction = { x: 0, y: 0 };
+
+  if (boid.position.x < bounds.x) {
+    direction.x = 1;
+  } else if (boid.position.x > bounds.width) {
+    direction.x = -1;
+  }
+
+  if (boid.position.y < bounds.y) {
+    direction.y = 1;
+  } else if (boid.position.y > bounds.height) {
+    direction.y = -1;
+  }
+
+  return mul(normalized(direction), boid.config.factors.bounds);
+}
