@@ -5,6 +5,7 @@ import {
   alignDirection,
   avoidCollision,
   respectBounds,
+  limitVelocity,
 } from "./rules";
 
 export type Bounds = {
@@ -23,7 +24,13 @@ export function flockMates(boid: Boid, boids: Array<Boid>) {
 }
 
 export function simulation(boids: Array<Boid>, bounds: Bounds) {
-  const rules = [groupTogether, alignDirection, avoidCollision, respectBounds];
+  const rules = [
+    groupTogether,
+    alignDirection,
+    avoidCollision,
+    respectBounds,
+    limitVelocity,
+  ];
   return {
     simulate: () => {
       for (let boid of boids) {

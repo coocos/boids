@@ -1,5 +1,5 @@
 import { Boid } from "./boid";
-import { add, sub, div, mul, normalized } from "../math/vector";
+import { add, sub, div, mul, mag, normalized } from "../math/vector";
 
 export type Bounds = {
   x: number;
@@ -79,4 +79,17 @@ export function respectBounds(
   }
 
   return mul(normalized(direction), boid.config.factors.bounds);
+}
+
+export function limitVelocity(
+  boid: Boid,
+  flockMates: Array<Boid>,
+  bounds: Bounds
+) {
+  const length = mag(boid.velocity);
+  if (length <= boid.config.maxVelocity) {
+    return { x: 0, y: 0 };
+  }
+  const delta = boid.config.maxVelocity - length;
+  return mul(normalized(boid.velocity), delta);
 }

@@ -3,6 +3,7 @@ import {
   alignDirection,
   avoidCollision,
   respectBounds,
+  limitVelocity,
 } from "./rules";
 import { Boid } from "./boid";
 import { Vector } from "../math/vector";
@@ -36,7 +37,7 @@ function createBoid(position: Vector, config = {}): Boid {
   };
 }
 
-describe("cohesion rule", () => {
+describe("cohesion", () => {
   test("should direct boid towards average flock position", () => {
     const boid = createBoid({
       x: 5,
@@ -88,7 +89,7 @@ describe("cohesion rule", () => {
   });
 });
 
-describe("alignment rule", () => {
+describe("alignment", () => {
   test("should direct boid towards average flock heading", () => {
     const boid = createBoid({
       x: 0,
@@ -147,7 +148,7 @@ describe("alignment rule", () => {
   });
 });
 
-describe("avoidance rule", () => {
+describe("separation", () => {
   test("should direct boid away from other boids", () => {
     const boid = createBoid({
       x: 0,
@@ -169,7 +170,7 @@ describe("avoidance rule", () => {
       y: 1,
     });
   });
-  test("should use avoidance factor to scale velocity", () => {
+  test("should use separation factor to scale velocity", () => {
     const boid = createBoid(
       {
         x: 0,
@@ -199,7 +200,7 @@ describe("avoidance rule", () => {
   });
 });
 
-describe("boundary rule", () => {
+describe("bounds", () => {
   test("should direct boid back within bounds", () => {
     let boid = createBoid({ x: defaultBounds.x - 1, y: 0 });
     expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
@@ -227,6 +228,21 @@ describe("boundary rule", () => {
     expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
       x: 0,
       y: 0,
+    });
+  });
+});
+
+describe("velocity limit", () => {
+  test("should limit boid velocity to a configure maximum velocity", () => {
+    const boid = createBoid({ x: 0, y: 0 });
+    boid.config.maxVelocity = 1;
+    boid.velocity = {
+      x: 5,
+      y: 0,
+    };
+    expect(limitVelocity(boid, [], defaultBounds)).toStrictEqual({
+      x: -4,
+      y: -0,
     });
   });
 });
