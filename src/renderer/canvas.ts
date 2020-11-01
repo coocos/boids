@@ -1,9 +1,11 @@
 import { Boid } from "../boids/boid";
 
 export function canvasRenderer(canvas: HTMLCanvasElement) {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const scale = window.devicePixelRatio;
+  canvas.width = window.innerWidth * scale;
+  canvas.height = window.innerHeight * scale;
   const context = canvas.getContext("2d");
+  context.scale(scale, scale);
 
   return {
     render(boids: Array<Boid>) {
