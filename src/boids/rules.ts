@@ -8,7 +8,11 @@ export type Bounds = {
   height: number;
 };
 
-export function cohesion(boid: Boid, flockMates: Array<Boid>, bounds: Bounds) {
+export function groupTogether(
+  boid: Boid,
+  flockMates: Array<Boid>,
+  bounds: Bounds
+) {
   let position = { x: 0, y: 0 };
   if (flockMates.length == 0) {
     return position;
@@ -35,4 +39,22 @@ export function alignDirection(
   }
   direction = normalized(direction);
   return mul(direction, boid.config.factors.alignment);
+}
+
+export function avoidCollision(
+  boid: Boid,
+  flockMates: Array<Boid>,
+  bounds: Bounds
+) {
+  let direction = { x: 0, y: 0 };
+  if (flockMates.length == 0) {
+    return direction;
+  }
+  for (let other of flockMates) {
+    const towardBoid = sub(boid.position, other.position);
+    direction.x += towardBoid.x;
+    direction.y += towardBoid.y;
+  }
+  direction = normalized(div(direction, flockMates.length));
+  return mul(direction, boid.config.factors.avoidance);
 }

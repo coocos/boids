@@ -1,4 +1,4 @@
-import { cohesion, alignDirection } from "./rules";
+import { groupTogether, alignDirection, avoidCollision } from "./rules";
 import { Boid } from "./boid";
 import { Vector, add, normalized } from "../math/vector";
 
@@ -47,9 +47,11 @@ describe("cohesion rule", () => {
         y: 4,
       }),
     ];
-    const velocity = cohesion(boid, flockMates, defaultBounds);
-    expect(velocity.x).toEqual(0);
-    expect(velocity.y).toEqual(-1);
+    const velocity = groupTogether(boid, flockMates, defaultBounds);
+    expect(velocity).toEqual({
+      x: 0,
+      y: -1,
+    });
   });
   test("should use cohesion factor to scale velocity", () => {
     const boid = createBoid(
@@ -73,9 +75,11 @@ describe("cohesion rule", () => {
         y: 4,
       }),
     ];
-    const velocity = cohesion(boid, flockMates, defaultBounds);
-    expect(velocity.x).toEqual(0);
-    expect(velocity.y).toEqual(-0.5);
+    const velocity = groupTogether(boid, flockMates, defaultBounds);
+    expect(velocity).toStrictEqual({
+      x: 0,
+      y: -0.5,
+    });
   });
 });
 
@@ -105,34 +109,87 @@ describe("alignment rule", () => {
     });
   });
 
-  test("should use cohesion factor to scale velocity", () => {});
-  const boid = createBoid(
-    {
-      x: 0,
-      y: 0,
-    },
-    {
-      factors: {
-        alignment: 0.5,
+  test("should use alignment factor to scale velocity", () => {
+    const boid = createBoid(
+      {
+        x: 0,
+        y: 0,
       },
-    }
-  );
-  const flockMates = [
-    createBoid({
+      {
+        factors: {
+          alignment: 0.5,
+        },
+      }
+    );
+    const flockMates = [
+      createBoid({
+        x: 0,
+        y: 0,
+      }),
+      createBoid({
+        x: 0,
+        y: 0,
+      }),
+    ];
+    const [first, second] = flockMates;
+    first.velocity = { x: 0, y: -1 };
+    second.velocity = { x: 0, y: -1 };
+    const velocity = alignDirection(boid, flockMates, defaultBounds);
+    expect(velocity).toStrictEqual({
+      x: 0,
+      y: -0.5,
+    });
+  });
+});
+
+describe("avoidance rule", () => {
+  test("should direct boid away from other boids", () => {
+    const boid = createBoid({
       x: 0,
       y: 0,
-    }),
-    createBoid({
+    });
+    const flockMates = [
+      createBoid({
+        x: -1,
+        y: -1,
+      }),
+      createBoid({
+        x: 1,
+        y: -1,
+      }),
+    ];
+    const velocity = avoidCollision(boid, flockMates, defaultBounds);
+    expect(velocity).toEqual({
       x: 0,
-      y: 0,
-    }),
-  ];
-  const [first, second] = flockMates;
-  first.velocity = { x: 0, y: -1 };
-  second.velocity = { x: 0, y: -1 };
-  const velocity = alignDirection(boid, flockMates, defaultBounds);
-  expect(velocity).toStrictEqual({
-    x: 0,
-    y: -0.5,
+      y: 1,
+    });
+  });
+  test("should use avoidance factor to scale velocity", () => {
+    const boid = createBoid(
+      {
+        x: 0,
+        y: 0,
+      },
+      {
+        factors: {
+          avoidance: 0.5,
+        },
+      }
+    );
+    const flockMates = [
+      createBoid({
+        x: -1,
+        y: -1,
+      }),
+      createBoid({
+        x: 1,
+        y: -1,
+      }),
+    ];
+    const velocity = avoidCollision(boid, flockMates, defaultBounds);
+    expect(velocity).toStrictEqual({
+      x: 0,
+      y: 0.5,
+    });
   });
 });
