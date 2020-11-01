@@ -4,7 +4,7 @@ export function canvasRenderer(canvas: HTMLCanvasElement) {
   const scale = window.devicePixelRatio;
   canvas.width = window.innerWidth * scale;
   canvas.height = window.innerHeight * scale;
-  const context = canvas.getContext("2d");
+  const context = canvas.getContext("2d") as CanvasRenderingContext2D;
   context.scale(scale, scale);
 
   return {

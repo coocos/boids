@@ -5,7 +5,7 @@ import {
   respectBounds,
   limitVelocity,
 } from "./rules";
-import { Boid } from "./boid";
+import { Boid, BoidConfig } from "./boid";
 import { Vector } from "../math/vector";
 
 const defaultBounds = {
@@ -15,7 +15,7 @@ const defaultBounds = {
   height: 10,
 };
 
-function createBoid(position: Vector, config = {}): Boid {
+function createBoid(position: Vector): Boid {
   return {
     position: position,
     velocity: {
@@ -30,9 +30,7 @@ function createBoid(position: Vector, config = {}): Boid {
         alignment: 1,
         separation: 1,
         bounds: 1,
-        ...(config["factors"] || {}),
       },
-      ...config,
     },
   };
 }
@@ -60,17 +58,11 @@ describe("cohesion", () => {
     });
   });
   test("should use cohesion factor to scale velocity", () => {
-    const boid = createBoid(
-      {
-        x: 5,
-        y: 5,
-      },
-      {
-        factors: {
-          cohesion: 0.5,
-        },
-      }
-    );
+    const boid = createBoid({
+      x: 5,
+      y: 5,
+    });
+    boid.config.factors.cohesion = 0.5;
     const flockMates = [
       createBoid({
         x: 4,
@@ -116,17 +108,11 @@ describe("alignment", () => {
   });
 
   test("should use alignment factor to scale velocity", () => {
-    const boid = createBoid(
-      {
-        x: 0,
-        y: 0,
-      },
-      {
-        factors: {
-          alignment: 0.5,
-        },
-      }
-    );
+    const boid = createBoid({
+      x: 0,
+      y: 0,
+    });
+    boid.config.factors.alignment = 0.5;
     const flockMates = [
       createBoid({
         x: 0,
@@ -171,17 +157,11 @@ describe("separation", () => {
     });
   });
   test("should use separation factor to scale velocity", () => {
-    const boid = createBoid(
-      {
-        x: 0,
-        y: 0,
-      },
-      {
-        factors: {
-          separation: 0.5,
-        },
-      }
-    );
+    const boid = createBoid({
+      x: 0,
+      y: 0,
+    });
+    boid.config.factors.separation = 0.5;
     const flockMates = [
       createBoid({
         x: -1,
