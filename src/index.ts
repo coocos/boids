@@ -10,14 +10,14 @@ const bounds = {
   height: window.innerHeight - 48,
 };
 
-const boids = createBoids(128, bounds, {
-  radius: 64,
-  maxVelocity: 3,
+const boids = createBoids(256, bounds, {
+  radius: 48,
+  maxVelocity: 2,
   factors: {
-    cohesion: 0.1,
+    cohesion: 0.15,
     alignment: 0.1,
     separation: 0.2,
-    bounds: 0.25,
+    bounds: 0.1,
   },
 });
 
