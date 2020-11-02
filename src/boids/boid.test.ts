@@ -2,12 +2,12 @@ import { createBoids } from "./boid";
 
 test("creating boids", () => {
   const config = {
-    flockRadius: 64,
+    radius: 64,
     maxVelocity: 8,
     factors: {
       cohesion: 1,
       alignment: 1,
-      avoidance: 1,
+      separation: 1,
       bounds: 1,
     },
   };
