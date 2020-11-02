@@ -35,6 +35,7 @@ export function simulation(boids: Array<Boid>, bounds: Bounds) {
     simulate: () => {
       for (let boid of boids) {
         const flock = flockMates(boid, boids);
+        boid.flockSize = flock.length;
         for (let rule of rules) {
           boid.velocity = add(boid.velocity, rule(boid, flock, bounds));
         }

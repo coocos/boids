@@ -32,6 +32,7 @@ function createBoid(position: Vector): Boid {
         bounds: 1,
       },
     },
+    flockSize: 0,
   };
 }
 

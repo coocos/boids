@@ -5,6 +5,7 @@ export type Boid = {
   position: Vector;
   velocity: Vector;
   config: BoidConfig;
+  flockSize: number;
 };
 
 export type BoidConfig = {
@@ -34,6 +35,7 @@ export function createBoids(
         x: Math.random() * (Math.random() < 0.5 ? 1 : -1),
         y: Math.random() * (Math.random() < 0.5 ? 1 : -1),
       },
+      flockSize: 0,
       config,
     });
   }
