@@ -23,7 +23,7 @@ export function findFlock(boid: Boid, boids: Boid[]) {
   );
 }
 
-export function simulation(boids: Boid[], bounds: Bounds) {
+export function simulation(bounds: Bounds) {
   const rules = [
     groupTogether,
     alignDirection,
@@ -32,16 +32,21 @@ export function simulation(boids: Boid[], bounds: Bounds) {
     limitVelocity,
   ];
   return {
-    simulate: () => {
-      for (let boid of boids) {
-        boid.flock = findFlock(boid, boids);
-        for (let rule of rules) {
-          boid.velocity = add(boid.velocity, rule(boid, bounds));
-        }
-      }
-      for (let boid of boids) {
-        boid.position = add(boid.position, boid.velocity);
-      }
+    simulate: (boids: Boid[]) => {
+      return boids.map((boid) => {
+        const velocity = rules.reduce(
+          (velocity, rule) => add(velocity, rule(boid, bounds)),
+          boid.velocity
+        );
+        const position = add(boid.position, boid.velocity);
+        const flock = findFlock(boid, boids);
+        return {
+          ...boid,
+          flock,
+          velocity,
+          position,
+        };
+      });
     },
   };
 }

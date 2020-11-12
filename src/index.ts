@@ -10,7 +10,7 @@ const bounds = {
   height: window.innerHeight - 48,
 };
 
-const boids = createBoids(256, bounds, {
+let boids = createBoids(256, bounds, {
   radius: 48,
   maxVelocity: 2,
   factors: {
@@ -21,11 +21,11 @@ const boids = createBoids(256, bounds, {
   },
 });
 
-const simulator = simulation(boids, bounds);
+const simulator = simulation(bounds);
 const renderer = canvasRenderer(canvas);
 
 function simulate() {
-  simulator.simulate();
+  boids = simulator.simulate(boids);
   renderer.render(boids);
   requestAnimationFrame(simulate);
 }
