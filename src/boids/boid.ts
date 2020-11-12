@@ -5,7 +5,7 @@ export type Boid = {
   position: Vector;
   velocity: Vector;
   config: BoidConfig;
-  flockSize: number;
+  flock: Boid[];
 };
 
 export type BoidConfig = {
@@ -23,8 +23,8 @@ export function createBoids(
   count: number = 64,
   bounds: Bounds,
   config: BoidConfig
-): Array<Boid> {
-  const boids: Array<Boid> = [];
+): Boid[] {
+  const boids: Boid[] = [];
   for (let i = 0; i < count; i++) {
     boids.push({
       position: {
@@ -35,7 +35,7 @@ export function createBoids(
         x: Math.random() * (Math.random() < 0.5 ? 1 : -1),
         y: Math.random() * (Math.random() < 0.5 ? 1 : -1),
       },
-      flockSize: 0,
+      flock: [],
       config,
     });
   }

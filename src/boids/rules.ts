@@ -8,62 +8,46 @@ export type Bounds = {
   height: number;
 };
 
-export function groupTogether(
-  boid: Boid,
-  flockMates: Array<Boid>,
-  bounds: Bounds
-) {
+export function groupTogether(boid: Boid, bounds: Bounds) {
   let position = { x: 0, y: 0 };
-  if (flockMates.length == 0) {
+  if (boid.flock.length == 0) {
     return position;
   }
-  for (let boid of flockMates) {
-    position = add(position, boid.position);
+  for (let mate of boid.flock) {
+    position = add(position, mate.position);
   }
-  position = div(position, flockMates.length);
+  position = div(position, boid.flock.length);
   const direction = normalized(sub(position, boid.position));
   return mul(direction, boid.config.factors.cohesion);
 }
 
-export function alignDirection(
-  boid: Boid,
-  flockMates: Array<Boid>,
-  bounds: Bounds
-) {
+export function alignDirection(boid: Boid, bounds: Bounds) {
   let direction = { x: 0, y: 0 };
-  if (flockMates.length == 0) {
+  if (boid.flock.length == 0) {
     return direction;
   }
-  for (let boid of flockMates) {
-    direction = add(direction, normalized(boid.velocity));
+  for (let mate of boid.flock) {
+    direction = add(direction, normalized(mate.velocity));
   }
   direction = normalized(direction);
   return mul(direction, boid.config.factors.alignment);
 }
 
-export function avoidCollision(
-  boid: Boid,
-  flockMates: Array<Boid>,
-  bounds: Bounds
-) {
+export function avoidCollision(boid: Boid, bounds: Bounds) {
   let direction = { x: 0, y: 0 };
-  if (flockMates.length == 0) {
+  if (boid.flock.length == 0) {
     return direction;
   }
-  for (let other of flockMates) {
-    const towardBoid = sub(boid.position, other.position);
+  for (let mate of boid.flock) {
+    const towardBoid = sub(boid.position, mate.position);
     direction.x += towardBoid.x;
     direction.y += towardBoid.y;
   }
-  direction = normalized(div(direction, flockMates.length));
+  direction = normalized(div(direction, boid.flock.length));
   return mul(direction, boid.config.factors.separation);
 }
 
-export function respectBounds(
-  boid: Boid,
-  flockMates: Array<Boid>,
-  bounds: Bounds
-) {
+export function respectBounds(boid: Boid, bounds: Bounds) {
   let direction = { x: 0, y: 0 };
 
   if (boid.position.x < bounds.x) {
@@ -81,11 +65,7 @@ export function respectBounds(
   return mul(normalized(direction), boid.config.factors.bounds);
 }
 
-export function limitVelocity(
-  boid: Boid,
-  flockMates: Array<Boid>,
-  bounds: Bounds
-) {
+export function limitVelocity(boid: Boid, bounds: Bounds) {
   const length = mag(boid.velocity);
   if (length <= boid.config.maxVelocity) {
     return { x: 0, y: 0 };

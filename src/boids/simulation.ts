@@ -15,7 +15,7 @@ export type Bounds = {
   height: number;
 };
 
-export function flockMates(boid: Boid, boids: Array<Boid>) {
+export function findFlock(boid: Boid, boids: Boid[]) {
   return boids.filter(
     (other) =>
       boid != other &&
@@ -23,7 +23,7 @@ export function flockMates(boid: Boid, boids: Array<Boid>) {
   );
 }
 
-export function simulation(boids: Array<Boid>, bounds: Bounds) {
+export function simulation(boids: Boid[], bounds: Bounds) {
   const rules = [
     groupTogether,
     alignDirection,
@@ -34,10 +34,9 @@ export function simulation(boids: Array<Boid>, bounds: Bounds) {
   return {
     simulate: () => {
       for (let boid of boids) {
-        const flock = flockMates(boid, boids);
-        boid.flockSize = flock.length;
+        boid.flock = findFlock(boid, boids);
         for (let rule of rules) {
-          boid.velocity = add(boid.velocity, rule(boid, flock, bounds));
+          boid.velocity = add(boid.velocity, rule(boid, bounds));
         }
       }
       for (let boid of boids) {

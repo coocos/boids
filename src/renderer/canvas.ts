@@ -15,9 +15,9 @@ function initializeCanvas(canvas: HTMLCanvasElement) {
 
 function boidColor(boid: Boid) {
   const color = [
-    206 + boid.flockSize * 10,
-    64 + boid.flockSize * 10,
-    99 + boid.flockSize * 10,
+    206 + boid.flock.length * 10,
+    64 + boid.flock.length * 10,
+    99 + boid.flock.length * 10,
   ];
   return `rgb(${color[0]},${color[1]},${color[2]})`;
 }
@@ -48,7 +48,7 @@ export function canvasRenderer(canvas: HTMLCanvasElement) {
   const { context, width, height } = initializeCanvas(canvas);
 
   return {
-    render(boids: Array<Boid>) {
+    render(boids: Boid[]) {
       clear(width, height, context);
       for (let boid of boids) {
         drawBoid(boid, context);

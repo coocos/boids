@@ -32,7 +32,7 @@ function createBoid(position: Vector): Boid {
         bounds: 1,
       },
     },
-    flockSize: 0,
+    flock: [],
   };
 }
 
@@ -42,7 +42,7 @@ describe("cohesion", () => {
       x: 5,
       y: 5,
     });
-    const flockMates = [
+    boid.flock = [
       createBoid({
         x: 4,
         y: 4,
@@ -52,7 +52,7 @@ describe("cohesion", () => {
         y: 4,
       }),
     ];
-    const velocity = groupTogether(boid, flockMates, defaultBounds);
+    const velocity = groupTogether(boid, defaultBounds);
     expect(velocity).toEqual({
       x: 0,
       y: -1,
@@ -64,7 +64,7 @@ describe("cohesion", () => {
       y: 5,
     });
     boid.config.factors.cohesion = 0.5;
-    const flockMates = [
+    boid.flock = [
       createBoid({
         x: 4,
         y: 4,
@@ -74,7 +74,7 @@ describe("cohesion", () => {
         y: 4,
       }),
     ];
-    const velocity = groupTogether(boid, flockMates, defaultBounds);
+    const velocity = groupTogether(boid, defaultBounds);
     expect(velocity).toStrictEqual({
       x: 0,
       y: -0.5,
@@ -88,7 +88,7 @@ describe("alignment", () => {
       x: 0,
       y: 0,
     });
-    const flockMates = [
+    boid.flock = [
       createBoid({
         x: 0,
         y: 0,
@@ -98,10 +98,10 @@ describe("alignment", () => {
         y: 0,
       }),
     ];
-    const [first, second] = flockMates;
+    const [first, second] = boid.flock;
     first.velocity = { x: 0, y: -1 };
     second.velocity = { x: 0, y: -1 };
-    const velocity = alignDirection(boid, flockMates, defaultBounds);
+    const velocity = alignDirection(boid, defaultBounds);
     expect(velocity).toStrictEqual({
       x: 0,
       y: -1,
@@ -114,7 +114,7 @@ describe("alignment", () => {
       y: 0,
     });
     boid.config.factors.alignment = 0.5;
-    const flockMates = [
+    boid.flock = [
       createBoid({
         x: 0,
         y: 0,
@@ -124,10 +124,10 @@ describe("alignment", () => {
         y: 0,
       }),
     ];
-    const [first, second] = flockMates;
+    const [first, second] = boid.flock;
     first.velocity = { x: 0, y: -1 };
     second.velocity = { x: 0, y: -1 };
-    const velocity = alignDirection(boid, flockMates, defaultBounds);
+    const velocity = alignDirection(boid, defaultBounds);
     expect(velocity).toStrictEqual({
       x: 0,
       y: -0.5,
@@ -141,7 +141,7 @@ describe("separation", () => {
       x: 0,
       y: 0,
     });
-    const flockMates = [
+    boid.flock = [
       createBoid({
         x: -1,
         y: -1,
@@ -151,7 +151,7 @@ describe("separation", () => {
         y: -1,
       }),
     ];
-    const velocity = avoidCollision(boid, flockMates, defaultBounds);
+    const velocity = avoidCollision(boid, defaultBounds);
     expect(velocity).toEqual({
       x: 0,
       y: 1,
@@ -163,7 +163,7 @@ describe("separation", () => {
       y: 0,
     });
     boid.config.factors.separation = 0.5;
-    const flockMates = [
+    boid.flock = [
       createBoid({
         x: -1,
         y: -1,
@@ -173,7 +173,7 @@ describe("separation", () => {
         y: -1,
       }),
     ];
-    const velocity = avoidCollision(boid, flockMates, defaultBounds);
+    const velocity = avoidCollision(boid, defaultBounds);
     expect(velocity).toStrictEqual({
       x: 0,
       y: 0.5,
@@ -184,29 +184,29 @@ describe("separation", () => {
 describe("bounds", () => {
   test("should direct boid back within bounds", () => {
     let boid = createBoid({ x: defaultBounds.x - 1, y: 0 });
-    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+    expect(respectBounds(boid, defaultBounds)).toStrictEqual({
       x: 1,
       y: 0,
     });
     boid = createBoid({ x: defaultBounds.width + 1, y: 0 });
-    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+    expect(respectBounds(boid, defaultBounds)).toStrictEqual({
       x: -1,
       y: 0,
     });
     boid = createBoid({ x: 0, y: defaultBounds.y - 1 });
-    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+    expect(respectBounds(boid, defaultBounds)).toStrictEqual({
       x: 0,
       y: 1,
     });
     boid = createBoid({ x: 0, y: defaultBounds.height + 1 });
-    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+    expect(respectBounds(boid, defaultBounds)).toStrictEqual({
       x: 0,
       y: -1,
     });
   });
   test("should not do anything if boid is within bounds", () => {
     const boid = createBoid({ x: 0, y: 0 });
-    expect(respectBounds(boid, [], defaultBounds)).toStrictEqual({
+    expect(respectBounds(boid, defaultBounds)).toStrictEqual({
       x: 0,
       y: 0,
     });
@@ -221,7 +221,7 @@ describe("velocity limit", () => {
       x: 5,
       y: 0,
     };
-    expect(limitVelocity(boid, [], defaultBounds)).toStrictEqual({
+    expect(limitVelocity(boid, defaultBounds)).toStrictEqual({
       x: -4,
       y: -0,
     });
