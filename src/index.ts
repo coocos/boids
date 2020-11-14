@@ -4,10 +4,10 @@ import { simulation } from "./boids/simulation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const bounds = {
-  x: 48,
-  y: 48,
-  width: window.innerWidth - 48,
-  height: window.innerHeight - 48,
+  x: window.innerWidth / 8,
+  y: window.innerHeight / 8,
+  width: window.innerWidth - window.innerWidth / 8,
+  height: window.innerHeight - window.innerHeight / 8,
 };
 
 let boids = createBoids(256, bounds, {
