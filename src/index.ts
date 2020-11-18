@@ -3,11 +3,13 @@ import { createBoids } from "./boids/boid";
 import { simulation } from "./boids/simulation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+
+const boundWidth = window.innerWidth / 10;
 const bounds = {
-  x: window.innerWidth / 8,
-  y: window.innerHeight / 8,
-  width: window.innerWidth - window.innerWidth / 8,
-  height: window.innerHeight - window.innerHeight / 8,
+  x: boundWidth,
+  y: boundWidth,
+  width: window.innerWidth - boundWidth,
+  height: window.innerHeight - boundWidth,
 };
 
 let boids = createBoids(256, bounds, {
