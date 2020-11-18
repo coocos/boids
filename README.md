@@ -1,6 +1,6 @@
-# Boids
+# Boids 🐦
 
-[A flocking algorithm](https://en.wikipedia.org/wiki/Boids) implementation using [TypeScript](https://www.typescriptlang.org/).
+[A flocking algorithm](https://en.wikipedia.org/wiki/Boids) implementation in TypeScript.
 
 ## Demo
 
