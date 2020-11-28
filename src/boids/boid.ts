@@ -63,3 +63,17 @@ export function randomBoids(bounds: Bounds): Boid[] {
     ],
   });
 }
+
+export function defaultBoids(bounds: Bounds): Boid[] {
+  return createBoids(256, bounds, {
+    radius: 48,
+    maxVelocity: 1.5,
+    factors: {
+      cohesion: 0.15,
+      alignment: 0.1,
+      separation: 0.2,
+      bounds: 0.1,
+    },
+    color: [206, 64, 99],
+  });
+}
