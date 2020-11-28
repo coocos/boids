@@ -5,7 +5,7 @@ import {
   respectBounds,
   limitVelocity,
 } from "./rules";
-import { Boid, BoidConfig } from "./boid";
+import { Boid } from "./boid";
 import { Vector } from "../math/vector";
 
 const defaultBounds = {
@@ -23,6 +23,7 @@ function createBoid(position: Vector): Boid {
       y: 0,
     },
     config: {
+      color: [255, 255, 255],
       radius: 10,
       maxVelocity: 1,
       factors: {

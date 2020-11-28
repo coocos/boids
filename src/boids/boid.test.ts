@@ -1,7 +1,7 @@
-import { createBoids } from "./boid";
+import { createBoids, BoidConfig } from "./boid";
 
 test("creating boids", () => {
-  const config = {
+  const config: BoidConfig = {
     radius: 64,
     maxVelocity: 8,
     factors: {
@@ -10,6 +10,7 @@ test("creating boids", () => {
       separation: 1,
       bounds: 1,
     },
+    color: [255, 255, 255],
   };
   const bounds = {
     x: 0,
