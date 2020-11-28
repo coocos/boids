@@ -9,6 +9,7 @@ export type Boid = {
 };
 
 export type BoidConfig = {
+  color: [number, number, number];
   radius: number;
   maxVelocity: number;
   factors: {
@@ -40,4 +41,25 @@ export function createBoids(
     });
   }
   return boids;
+}
+
+export function randomBoids(bounds: Bounds): Boid[] {
+  const amount = 128 + Math.floor(Math.random() * 256);
+  const radius = 48 + Math.random() * 24;
+  const maxVelocity = 0.75 + Math.random();
+  return createBoids(amount, bounds, {
+    radius,
+    maxVelocity,
+    factors: {
+      cohesion: 0.1 + Math.random() * 0.1,
+      alignment: 0.1 + Math.random() * 0.25,
+      separation: 0.15 + Math.random() * 0.25,
+      bounds: 0.1 + Math.random() * 0.25,
+    },
+    color: [
+      Math.floor(Math.random() * 225),
+      Math.floor(Math.random() * 225),
+      Math.floor(Math.random() * 225),
+    ],
+  });
 }

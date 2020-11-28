@@ -1,5 +1,8 @@
 import { Boid } from "../boids/boid";
 
+const COLOR_MULTIPLIER = 10;
+const BACKGROUND_COLOR = "rgba(0, 0, 0, 0.075)";
+
 function initializeCanvas(canvas: HTMLCanvasElement) {
   const scale = window.devicePixelRatio;
   canvas.width = window.innerWidth * scale;
@@ -14,12 +17,10 @@ function initializeCanvas(canvas: HTMLCanvasElement) {
 }
 
 function boidColor(boid: Boid) {
-  const color = [
-    206 + boid.flock.length * 10,
-    64 + boid.flock.length * 10,
-    99 + boid.flock.length * 10,
-  ];
-  return `rgb(${color[0]},${color[1]},${color[2]})`;
+  const [r, g, b] = boid.config.color.map(
+    (component) => component + boid.flock.length * COLOR_MULTIPLIER
+  );
+  return `rgb(${r},${g},${b})`;
 }
 
 function drawBoid(boid: Boid, context: CanvasRenderingContext2D) {
@@ -40,7 +41,7 @@ function clear(
   height: number,
   context: CanvasRenderingContext2D
 ) {
-  context.fillStyle = "rgba(0, 0, 0, 0.075)";
+  context.fillStyle = BACKGROUND_COLOR;
   context.fillRect(0, 0, width, height);
 }
 

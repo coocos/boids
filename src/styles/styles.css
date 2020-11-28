@@ -4,10 +4,28 @@
 body {
     margin: 0;
     overflow: hidden;
+    background-color: #000;
+}
+#randomize {
+    position: absolute;
+    margin-left: calc(100% - 4.5rem);
+    top: 1.5rem;
+    background-color: #333;
+    font-size: 1.5rem;
+    color: #eee;
+    border: none;
+    border-radius: 3px;
+    width: 3rem;
+    height: 3rem;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+    outline: none;
+    transition: transform 0.5s;
+}
+#randomize:hover {
+    transform: scale(1.25)
 }
 #canvas {
     width: 100vw;
-    height: 100vh;
-    background-color: #777;
+    background: #000;
     overflow: hidden;
 }
