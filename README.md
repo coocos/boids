@@ -1,5 +1,7 @@
 # Boids 🐦
 
+![tests](https://github.com/coocos/boids/workflows/tests/badge.svg)
+
 [A flocking algorithm](https://en.wikipedia.org/wiki/Boids) implementation in TypeScript.
 
 ![Boids screenshot](/docs/screenshot.png)
