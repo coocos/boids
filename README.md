@@ -2,9 +2,11 @@
 
 [A flocking algorithm](https://en.wikipedia.org/wiki/Boids) implementation in TypeScript.
 
+![Boids screenshot](/docs/screenshot.png)
+
 ## Demo
 
-You can see it in action [here](https://lamsa.dev/boids/).
+You can see it in action [here](https://lamsa.dev/boids/). Press the button to randomize the boid behaviour and appearance.
 
 ## Building
 
